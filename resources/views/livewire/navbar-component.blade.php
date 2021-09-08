@@ -79,6 +79,9 @@
                                             <a href="{{ route('admin.product') }}">Product</a>
                                         </li>
                                         <li class="menu-item">
+                                            <a href="{{ route('admin.banner') }}">Banner</a>
+                                        </li>
+                                        <li class="menu-item">
                                             <a href="#" wire:click.prevent="logout">Logout</a>
                                         </li>
                                     </ul>

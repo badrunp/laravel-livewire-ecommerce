@@ -1,9 +1,12 @@
 <?php
 
+use App\Http\Livewire\Admin\AdminBannerComponent;
 use App\Http\Livewire\Admin\AdminStoreCategoryComponent;
 use App\Http\Livewire\Admin\AdminCategoryComponent;
 use App\Http\Livewire\Admin\AdminDashboardComponent;
 use App\Http\Livewire\Admin\AdminProductComponent;
+use App\Http\Livewire\Admin\AdminStoreBannerComponent;
+use App\Http\Livewire\Admin\AdminStoreProductComponent;
 use App\Http\Livewire\CartComponent;
 use App\Http\Livewire\CategoryComponent;
 use App\Http\Livewire\CheckoutComponent;
@@ -35,6 +38,9 @@ Route::name('home.')->group(function () {
 Route::prefix('admin')->name('admin.')->middleware(['auth', 'authadmin'])->group(function(){
     Route::get('/dashboard', AdminDashboardComponent::class)->name('dashboard');
     Route::get('/category', AdminCategoryComponent::class)->name('category');
-    Route::get('/category/store/{category:slug?}', AdminStoreCategoryComponent::class)->name('create.category');
+    Route::get('/category/store/{category:slug?}', AdminStoreCategoryComponent::class)->name('store.category');
     Route::get('/product', AdminProductComponent::class)->name('product');
+    Route::get('/product/store/{product:slug?}', AdminStoreProductComponent::class)->name('store.product');
+    Route::get('/banner', AdminBannerComponent::class)->name('banner');
+    Route::get('/banner/store/{banner?}', AdminStoreBannerComponent::class)->name('store.banner');
 });

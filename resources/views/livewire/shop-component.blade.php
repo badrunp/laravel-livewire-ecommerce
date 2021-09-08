@@ -72,8 +72,16 @@
                                 </div>
                                 <div class="product-info">
                                     <a href="#" class="product-name"><span>{{ $value->name }}</span></a>
-                                    <div class="wrap-price"><span class="product-price">Rp. {{ $value->regular_price }}</span></div>
-                                    <a href="#" class="btn add-to-cart" wire:click.prevent="store({{$value->id}}, '{{ $value->name }}', {{ $value->regular_price }})">Add To Cart</a>
+                                    @if($value->sale_price > 0)
+                                        <div class="wrap-price"><span class="product-price">Rp. {{ $value->sale_price }} </span>
+                                        <del>
+                                            <p class="product-price">Rp. {{ $value->regular_price }}</p>
+                                        </del>
+                                    @else
+                                        <div class="wrap-price"><span class="product-price">Rp. {{ $value->regular_price }} </span>
+                                    @endif
+                                    </div>
+                                    <a href="#" class="btn add-to-cart" wire:click.prevent="store({{$value->id}}, '{{ $value->name }}', {{ $value->sale_price > 0 ? $value->sale_price : $value->regular_price }})">Add To Cart</a>
                                 </div>
                             </div>
                         </li>

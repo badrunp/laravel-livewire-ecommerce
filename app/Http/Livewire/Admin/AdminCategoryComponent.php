@@ -15,6 +15,9 @@ class AdminCategoryComponent extends Component
 
     public function deleteCategory(Category $category){
         $category->delete();
+        if(Storage::exists($product->image)){
+            Storage::delete($product->image);
+        }
         session()->flash('message', 'Success, Category deleted');
     }
 

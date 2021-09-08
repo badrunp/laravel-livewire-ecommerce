@@ -13,7 +13,7 @@
                             style="display: flex; align-items: center; justify-content: space-between">
                             <h4>All Categories</h4>
                             <div>
-                                <a href="{{ route('admin.create.category') }}" class="btn btn-primary btn-sm">Create</a>
+                                <a href="{{ route('admin.store.category') }}" class="btn btn-primary btn-sm">Create</a>
                             </div>
                         </div>
                     </div>
@@ -36,7 +36,7 @@
                                 <td>{{ $value->slug }}</td>
                                 <td>
                                     <button class="btn btn-danger btn-sm" onclick="confirm('yes or not?') ? Livewire.emit('deleteCategory',{{ $value->id }}) : false">Delete</button>
-                                    <a href="{{ route('admin.create.category', $value) }}" class="btn btn-success btn-sm">Edit</a>
+                                    <a href="{{ route('admin.store.category', $value) }}" class="btn btn-success btn-sm">Edit</a>
                                 </td>
                             </tr>
                             @endforeach

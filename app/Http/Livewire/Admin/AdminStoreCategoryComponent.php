@@ -15,9 +15,15 @@ class AdminStoreCategoryComponent extends Component
     public $type = 'Created';
 
     public function rules(){
+        if($this->type == 'Updated'){
+            return [
+                'name' => 'required|min:3|max:100|unique:categories,name,' . $this->category->id,
+                'slug' => 'required|unique:categories,slug,' . $this->category->id 
+            ];
+        }
         return [
-            'name' => 'required|min:3|max:100|unique:categories,name,' . $this->type == 'Updated' ? $this->category->id : '',
-            'slug' => 'unique:categories,slug,' . $this->type == 'Updated' ? $this->category->id : ''
+            'name' => 'required|min:3|max:100|unique:categories,name',
+            'slug' => 'required|unique:categories,slug' 
         ];
     }
 

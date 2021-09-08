@@ -13,7 +13,7 @@
                             style="display: flex; align-items: center; justify-content: space-between">
                             <h4>All Products</h4>
                             <div>
-                                <a href="{{ route('admin.create.category') }}" class="btn btn-primary btn-sm">Create</a>
+                                <a href="{{ route('admin.store.product') }}" class="btn btn-primary btn-sm">Create</a>
                             </div>
                         </div>
                     </div>
@@ -27,6 +27,7 @@
                                 <th>Name</th>
                                 <th>Stok</th>
                                 <th>Price</th>
+                                <th>Sale Price</th>
                                 <th>Category</th>
                                 <th>Action</th>
                             </tr>
@@ -41,10 +42,11 @@
                                 <td>{{ $value->name }}</td>
                                 <td>{{ $value->quantity }}</td>
                                 <td>{{ $value->regular_price }}</td>
+                                <td>{{ $value->sale_price > 0 ? $value->sale_price : 0 }}</td>
                                 <td>{{ $value->category->name }}</td>
                                 <td>
                                     <button class="btn btn-danger btn-sm" onclick="confirm('yes or not?') ? Livewire.emit('deleteProduct',{{ $value->id }}) : false">Delete</button>
-                                    <a href="{{ route('admin.create.category', $value) }}" class="btn btn-success btn-sm">Edit</a>
+                                    <a href="{{ route('admin.store.product', $value) }}" class="btn btn-success btn-sm">Edit</a>
                                 </td>
                             </tr>
                             @endforeach
