@@ -30,13 +30,13 @@
                         <div class="quantity">
                             <div class="quantity-input">
                                 <input type="text" name="product-quatity" value="{{ $value->qty }}" data-max="{{ $value->model->quantity }}" pattern="[0-9]*" >									
-                                <a class="btn btn-increase" href="#"></a>
-                                <a class="btn btn-reduce" href="#"></a>
+                                <a class="btn btn-increase" wire:click.prevent="increment('{{ $value->rowId }}')"></a>
+                                <a class="btn btn-reduce" wire:click.prevent="decrement('{{ $value->rowId }}')"></a>
                             </div>
                         </div>
                         <div class="price-field sub-total"><p class="price">Rp. {{$value->subtotal}}</p></div>
                         <div class="delete">
-                            <a href="#" class="btn btn-delete" title="">
+                            <a class="btn btn-delete" title="" wire:click.prevent="removeCart('{{ $value->rowId }}')">
                                 <span>Delete from your cart</span>
                                 <i class="fa fa-times-circle" aria-hidden="true"></i>
                             </a>
@@ -65,12 +65,12 @@
                     <a class="link-to-shop" href="shop.html">Continue Shopping<i class="fa fa-arrow-circle-right" aria-hidden="true"></i></a>
                 </div>
                 <div class="update-clear">
-                    <a class="btn btn-clear" href="#">Clear Shopping Cart</a>
+                    <a class="btn btn-clear" href="#" wire:click.prevent="removeAllCart()">Clear Shopping Cart</a>
                     <a class="btn btn-update" href="#">Update Shopping Cart</a>
                 </div>
             </div>
 
-            <div class="wrap-show-advance-info-box style-1 box-in-site">
+            <div class="wrap-show-advance-info-box style-1 box-in-site" wire:ignore>
                 <h3 class="title-box">Most Viewed Products</h3>
                 <div class="wrap-products">
                     <div class="products slide-carousel owl-carousel style-nav-1 equal-container" data-items="5" data-loop="false" data-nav="true" data-dots="false" data-responsive='{"0":{"items":"1"},"480":{"items":"2"},"768":{"items":"3"},"992":{"items":"3"},"1200":{"items":"5"}}' >

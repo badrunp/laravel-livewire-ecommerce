@@ -5,7 +5,10 @@
         <div class="wrap-breadcrumb">
             <ul>
                 <li class="item-link"><a href="#" class="link">home</a></li>
-                <li class="item-link"><span>Digital & Electronics</span></li>
+                <li class="item-link"><span>Product {{ isset($category) ? 'Categories' : 'All' }}</span></li>
+                @isset($category)
+                <li class="item-link"><span>{{ $category->name }}</span></li>
+                @endisset
             </ul>
         </div>
         <div class="row">
@@ -20,15 +23,15 @@
 
                 <div class="wrap-shop-control">
 
-                    <h1 class="shop-title">Digital & Electronics</h1>
+                    <h1 class="shop-title">{{ isset($category) ? $category->name : 'All product' }}</h1>
 
                     <div class="wrap-right">
 
                         <div class="sort-item orderby ">
-                            <select name="orderby" class="use-chosen" >
-                                <option value="menu_order" selected="selected">Default sorting</option>
-                                <option value="popularity">Sort by popularity</option>
-                                <option value="rating">Sort by average rating</option>
+                            <select name="orderby" class="use-chosen" wire:model="sortingBy">
+                                <option value="defaul" selected="selected">Default sorting</option>
+                                {{-- <option value="popularity">Sort by popularity</option> --}}
+                                {{-- <option value="rating">Sort by average rating</option> --}}
                                 <option value="date">Sort by newness</option>
                                 <option value="price">Sort by price: low to high</option>
                                 <option value="price-desc">Sort by price: high to low</option>
@@ -36,7 +39,7 @@
                         </div>
 
                         <div class="sort-item product-per-page">
-                            <select name="post-per-page" class="use-chosen" >
+                            <select name="post-per-page" class="use-chosen" wire:model="numberPage">
                                 <option value="12" selected="selected">12 per page</option>
                                 <option value="16">16 per page</option>
                                 <option value="18">18 per page</option>
@@ -59,7 +62,7 @@
                 <div class="row">
 
                     <ul class="product-list grid-products equal-container">
-                        @foreach($products as $key => $value)           
+                        @forelse($products as $key => $value)           
                         <li class="col-lg-4 col-md-6 col-sm-6 col-xs-6 ">
                             <div class="product product-style-3 equal-elem ">
                                 <div class="product-thumnail">
@@ -74,19 +77,17 @@
                                 </div>
                             </div>
                         </li>
-                        @endforeach
+                        @empty
+                        <li class="col-lg-4 col-md-6 col-sm-6 col-xs-6">   
+                            <p style="margin-top: 20px">Not product result</p>
+                        </li>
+                        @endforelse
                     </ul>
 
                 </div>
 
                 <div class="wrap-pagination-info">
-                    <ul class="page-numbers">
-                        <li><span class="page-number-item current" >1</span></li>
-                        <li><a class="page-number-item" href="#" >2</a></li>
-                        <li><a class="page-number-item" href="#" >3</a></li>
-                        <li><a class="page-number-item next-link" href="#" >Next</a></li>
-                    </ul>
-                    <p class="result-count">Showing 1-8 of 12 result</p>
+                    {{ $products->links() }}
                 </div>
             </div><!--end main products area-->
 
@@ -95,7 +96,7 @@
                     <h2 class="widget-title">All Categories</h2>
                     <div class="widget-content">
                         <ul class="list-category">
-                            <li class="category-item has-child-cate">
+                            {{-- <li class="category-item has-child-cate">
                                 <a href="#" class="cate-link">Fashion & Accessories</a>
                                 <span class="toggle-control">+</span>
                                 <ul class="sub-cate">
@@ -103,34 +104,13 @@
                                     <li class="category-item"><a href="#" class="cate-link">Headsets (16)</a></li>
                                     <li class="category-item"><a href="#" class="cate-link">Screen (28)</a></li>
                                 </ul>
-                            </li>
-                            <li class="category-item has-child-cate">
-                                <a href="#" class="cate-link">Furnitures & Home Decors</a>
-                                <span class="toggle-control">+</span>
-                                <ul class="sub-cate">
-                                    <li class="category-item"><a href="#" class="cate-link">Batteries (22)</a></li>
-                                    <li class="category-item"><a href="#" class="cate-link">Headsets (16)</a></li>
-                                    <li class="category-item"><a href="#" class="cate-link">Screen (28)</a></li>
-                                </ul>
-                            </li>
-                            <li class="category-item has-child-cate">
-                                <a href="#" class="cate-link">Digital & Electronics</a>
-                                <span class="toggle-control">+</span>
-                                <ul class="sub-cate">
-                                    <li class="category-item"><a href="#" class="cate-link">Batteries (22)</a></li>
-                                    <li class="category-item"><a href="#" class="cate-link">Headsets (16)</a></li>
-                                    <li class="category-item"><a href="#" class="cate-link">Screen (28)</a></li>
-                                </ul>
-                            </li>
+                            </li> --}}
+                            @foreach($categories as $key => $value)              
                             <li class="category-item">
-                                <a href="#" class="cate-link">Tools & Equipments</a>
+                                <a href="{{ route('home.category', $value) }}" class="cate-link" style="{{ isset($category) && $category->id == $value->id ? 'color: red' : '' }}">{{ $value->name }}</a>
                             </li>
-                            <li class="category-item">
-                                <a href="#" class="cate-link">Kid’s Toys</a>
-                            </li>
-                            <li class="category-item">
-                                <a href="#" class="cate-link">Organics & Spa</a>
-                            </li>
+                            @endforeach
+    
                         </ul>
                     </div>
                 </div><!-- Categories widget-->
