@@ -17,6 +17,9 @@ class NavbarComponent extends Component
         $this->fill(request()->only('search', 'product_cat', 'product_cat_id'));
     }
 
+    protected $listeners = ['updateCount' => '$refresh'];
+
+
     public function logout(){
         auth()->logout();
 

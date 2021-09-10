@@ -37,8 +37,12 @@
                         </div>
                         <div class="wrap-social">
                             <a class="link-socail" href="#"><img src="{{ asset('assets/images/social-list.png') }}" alt=""></a>
-                        </div>                        <div class="wrap-price"><span class="product-price">Rp. {{ $product->sale_price }}</span> <del><span class="prouduct-price">Rp. {{ $product->regular_price }}</span></del></div>
-
+                        </div>                       
+                        @if($product->sale_price > 0 && $sale->status == 'active' && $sale->sale_date > now())
+                        <div class="wrap-price"><span class="product-price">Rp. {{ $product->sale_price }}</span> <del><span class="prouduct-price">Rp. {{ $product->regular_price }}</span></del></div>
+                        @else
+                        <div class="wrap-price"><span class="product-price">Rp. {{ $product->regular_price }}</span></div>
+                        @endif
                         <div class="stock-info in-stock">
                             <p class="availability">Availability: <b>{{ $product->stock_status == 'instock' ? 'In Stock' : 'Out Of Stock' }}</b></p>
                         </div>
@@ -52,7 +56,7 @@
                             </div>
                         </div>
                         <div class="wrap-butons">
-                            <a href="#" class="btn add-to-cart" wire:click.prevent="store({{$product->id}}, '{{$product->name}}', {{$product->sale_price > 0 ? $product->sale_price : $product->regular_price}})">Add to Cart</a>
+                            <a href="#" class="btn add-to-cart" wire:click.prevent="store({{$product->id}}, '{{$product->name}}', {{$product->sale_price > 0 && $sale->status == 'active' && $sale->sale_date > now() ? $product->sale_price : $product->regular_price}})">Add to Cart</a>
                             <div class="wrap-btn">
                                 <a href="#" class="btn btn-compare">Add Compare</a>
                                 <a href="#" class="btn btn-wishlist">Add Wishlist</a>

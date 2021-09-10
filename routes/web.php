@@ -5,8 +5,10 @@ use App\Http\Livewire\Admin\AdminStoreCategoryComponent;
 use App\Http\Livewire\Admin\AdminCategoryComponent;
 use App\Http\Livewire\Admin\AdminDashboardComponent;
 use App\Http\Livewire\Admin\AdminProductComponent;
+use App\Http\Livewire\Admin\AdminSaleComponent;
 use App\Http\Livewire\Admin\AdminStoreBannerComponent;
 use App\Http\Livewire\Admin\AdminStoreProductComponent;
+use App\Http\Livewire\Admin\AdminStoreSaleComponent;
 use App\Http\Livewire\CartComponent;
 use App\Http\Livewire\CategoryComponent;
 use App\Http\Livewire\CheckoutComponent;
@@ -16,12 +18,13 @@ use App\Http\Livewire\ProductDetailComponent;
 use App\Http\Livewire\RegisterComponent;
 use App\Http\Livewire\SearchComponent;
 use App\Http\Livewire\ShopComponent;
+use App\Http\Livewire\WishlistComponent;
 use Illuminate\Support\Facades\Route;
-use Symfony\Component\Routing\Route as RoutingRoute;
 
 Route::name('home.')->group(function () {
     Route::get('/', HomeComponent::class)->name('index');
     Route::get('/cart', CartComponent::class)->name('cart');
+    Route::get('/wishlist', WishlistComponent::class)->name('wishlist');
     Route::get('/shop', ShopComponent::class)->name('shop');
     Route::get('/checkout', CheckoutComponent::class)->name('checkout');
     Route::get('/search', SearchComponent::class)->name('search');
@@ -43,4 +46,6 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'authadmin'])->group
     Route::get('/product/store/{product:slug?}', AdminStoreProductComponent::class)->name('store.product');
     Route::get('/banner', AdminBannerComponent::class)->name('banner');
     Route::get('/banner/store/{banner?}', AdminStoreBannerComponent::class)->name('store.banner');
+    Route::get('/sale', AdminSaleComponent::class)->name('sale');
+    Route::get('/sale/store/{sale}', AdminStoreSaleComponent::class)->name('store.sale');
 });

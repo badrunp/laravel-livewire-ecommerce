@@ -3,16 +3,18 @@
 namespace App\Http\Livewire;
 
 use App\Models\Product;
+use App\Models\Sale;
 use Livewire\Component;
 use Cart;
 
 class ProductDetailComponent extends Component
 {
     public $product;
-    public $qty = 1;
+    public $qty;
 
     public function mount(Product $product){
         $this->product = $product;
+        $this->qty = 1;
     }
 
     public function store($id, $name, $price){
@@ -36,7 +38,8 @@ class ProductDetailComponent extends Component
     {
         return view('livewire.product-detail-component', [
             'productPopulars' => Product::inRandomOrder()->limit(4)->get(),
-            'productRelateds' => Product::where('category_id', $this->product->category_id)->inRandomOrder()->limit(5)->get()
+            'productRelateds' => Product::where('category_id', $this->product->category_id)->inRandomOrder()->limit(5)->get(),
+            'sale' => Sale::first()
         ])->layout('layouts.app-layout');
     }
 }

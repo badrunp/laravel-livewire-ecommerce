@@ -1,3 +1,26 @@
+@push('styles')
+<style>
+    .product-wish {
+        position: absolute;
+        top: 10%;
+        left: 0;
+        z-index: 99;
+        right: 30px;
+        text-align: right;
+        padding-top: 0;
+    }
+
+    .product-wish .fa{
+        color: #cbcbcb;
+        font-size: 28px;
+    }
+
+    .product-wish .fa:hover{
+        color: #ff7007;
+    }
+</style>
+@endpush
+
 <main id="main" class="main-site left-sidebar">
 
     <div class="container">
@@ -57,36 +80,50 @@
 
                     </div>
 
-                </div><!--end wrap shop control-->
+                </div>
+                <!--end wrap shop control-->
 
                 <div class="row">
 
                     <ul class="product-list grid-products equal-container">
-                        @forelse($products as $key => $value)           
+                        @forelse($products as $key => $value)
                         <li class="col-lg-4 col-md-6 col-sm-6 col-xs-6 ">
                             <div class="product product-style-3 equal-elem ">
                                 <div class="product-thumnail">
-                                    <a href="{{ route('home.productdetail', $value) }}" title="T-Shirt Raw Hem Organic Boro Constrast Denim">
-                                        <figure><img src="{{ asset('assets/images/products/' . $value->image) }}" alt="{{ $value->name }}"></figure>
+                                    <a href="{{ route('home.productdetail', $value) }}"
+                                        title="T-Shirt Raw Hem Organic Boro Constrast Denim">
+                                        <figure><img src="{{ asset('assets/images/products/' . $value->image) }}"
+                                                alt="{{ $value->name }}"></figure>
                                     </a>
                                 </div>
                                 <div class="product-info">
                                     <a href="#" class="product-name"><span>{{ $value->name }}</span></a>
                                     @if($value->sale_price > 0)
-                                        <div class="wrap-price"><span class="product-price">Rp. {{ $value->sale_price }} </span>
+                                    <div class="wrap-price"><span class="product-price">Rp. {{ $value->sale_price }}
+                                        </span>
                                         <del>
                                             <p class="product-price">Rp. {{ $value->regular_price }}</p>
                                         </del>
-                                    @else
-                                        <div class="wrap-price"><span class="product-price">Rp. {{ $value->regular_price }} </span>
-                                    @endif
+                                        @else
+                                        <div class="wrap-price"><span class="product-price">Rp.
+                                                {{ $value->regular_price }} </span>
+                                            @endif
+                                        </div>
+                                        <a href="#" class="btn add-to-cart"
+                                            wire:click.prevent="store({{$value->id}}, '{{ $value->name }}', {{ $value->sale_price > 0 && $sale->status == 'active' && $sale->sale_date > now() ? $value->sale_price : $value->regular_price }})">Add
+                                            To Cart</a>
+                                        <div class="product-wish">
+                                            @if($myWishlist->contains($value->id))
+                                            <a href=""><i class="fa fa-heart fill-hear" wire:click.prevent="addToWishlist({{ $value->id }}, '{{ $value->name }}', {{ $value->regular_price }}, 'remove')" style="color: #ff7007;" ></i></a>
+                                            @else
+                                            <a href=""><i class="fa fa-heart" wire:click.prevent="addToWishlist({{ $value->id }}, '{{ $value->name }}', {{ $value->regular_price }}, 'add')"></i></a>
+                                            @endif
+                                        </div>
                                     </div>
-                                    <a href="#" class="btn add-to-cart" wire:click.prevent="store({{$value->id}}, '{{ $value->name }}', {{ $value->sale_price > 0 ? $value->sale_price : $value->regular_price }})">Add To Cart</a>
                                 </div>
-                            </div>
                         </li>
                         @empty
-                        <li class="col-lg-4 col-md-6 col-sm-6 col-xs-6">   
+                        <li class="col-lg-4 col-md-6 col-sm-6 col-xs-6">
                             <p style="margin-top: 20px">Not product result</p>
                         </li>
                         @endforelse
@@ -97,7 +134,8 @@
                 <div class="wrap-pagination-info">
                     {{ $products->links() }}
                 </div>
-            </div><!--end main products area-->
+            </div>
+            <!--end main products area-->
 
             <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12 sitebar">
                 <div class="widget mercado-widget categories-widget">
@@ -113,12 +151,13 @@
                                     <li class="category-item"><a href="#" class="cate-link">Screen (28)</a></li>
                                 </ul>
                             </li> --}}
-                            @foreach($categories as $key => $value)              
+                            @foreach($categories as $key => $value)
                             <li class="category-item">
-                                <a href="{{ route('home.category', $value) }}" class="cate-link" style="{{ isset($category) && $category->id == $value->id ? 'color: red' : '' }}">{{ $value->name }}</a>
+                                <a href="{{ route('home.category', $value) }}" class="cate-link"
+                                    style="{{ isset($category) && $category->id == $value->id ? 'color: red' : '' }}">{{ $value->name }}</a>
                             </li>
                             @endforeach
-    
+
                         </ul>
                     </div>
                 </div><!-- Categories widget-->
@@ -134,23 +173,25 @@
                             <li class="list-item"><a class="filter-link " href="#">Sound & Speaker</a></li>
                             <li class="list-item"><a class="filter-link " href="#">Shop Smartphone & Tablets</a></li>
                             <li class="list-item default-hiden"><a class="filter-link " href="#">Printer & Ink</a></li>
-                            <li class="list-item default-hiden"><a class="filter-link " href="#">CPUs & Prosecsors</a></li>
-                            <li class="list-item default-hiden"><a class="filter-link " href="#">Sound & Speaker</a></li>
-                            <li class="list-item default-hiden"><a class="filter-link " href="#">Shop Smartphone & Tablets</a></li>
-                            <li class="list-item"><a data-label='Show less<i class="fa fa-angle-up" aria-hidden="true"></i>' class="btn-control control-show-more" href="#">Show more<i class="fa fa-angle-down" aria-hidden="true"></i></a></li>
+                            <li class="list-item default-hiden"><a class="filter-link " href="#">CPUs & Prosecsors</a>
+                            </li>
+                            <li class="list-item default-hiden"><a class="filter-link " href="#">Sound & Speaker</a>
+                            </li>
+                            <li class="list-item default-hiden"><a class="filter-link " href="#">Shop Smartphone &
+                                    Tablets</a></li>
+                            <li class="list-item"><a
+                                    data-label='Show less<i class="fa fa-angle-up" aria-hidden="true"></i>'
+                                    class="btn-control control-show-more" href="#">Show more<i class="fa fa-angle-down"
+                                        aria-hidden="true"></i></a></li>
                         </ul>
                     </div>
                 </div><!-- brand widget-->
 
                 <div class="widget mercado-widget filter-widget price-filter">
-                    <h2 class="widget-title">Price</h2>
-                    <div class="widget-content">
-                        <div id="slider-range"></div>
-                        <p>
-                            <label for="amount">Price:</label>
-                            <input type="text" id="amount" readonly>
-                            <button class="filter-submit">Filter</button>
-                        </p>
+                    <h2 class="widget-title">Price <span class="text-info">{{ $min_price }} - {{ $max_price }}</span>
+                    </h2>
+                    <div class="widget-content" style="padding: 10px 0 40px 0;">
+                        <div class="slider" wire:ignore></div>
                     </div>
                 </div><!-- Price-->
 
@@ -178,7 +219,8 @@
                             <li class="list-item"><a class="filter-link " href="#">xl</a></li>
                         </ul>
                         <div class="widget-banner">
-                            <figure><img src="{{ asset('assets') }}/images/size-banner-widget.jpg" width="270" height="331" alt=""></figure>
+                            <figure><img src="{{ asset('assets') }}/images/size-banner-widget.jpg" width="270"
+                                    height="331" alt=""></figure>
                         </div>
                     </div>
                 </div><!-- Size -->
@@ -190,12 +232,15 @@
                             <li class="product-item">
                                 <div class="product product-widget-style">
                                     <div class="thumbnnail">
-                                        <a href="detail.html" title="Radiant-360 R6 Wireless Omnidirectional Speaker [White]">
-                                            <figure><img src="{{ asset('assets') }}/images/products/digital_01.jpg" alt=""></figure>
+                                        <a href="detail.html"
+                                            title="Radiant-360 R6 Wireless Omnidirectional Speaker [White]">
+                                            <figure><img src="{{ asset('assets') }}/images/products/digital_01.jpg"
+                                                    alt=""></figure>
                                         </a>
                                     </div>
                                     <div class="product-info">
-                                        <a href="#" class="product-name"><span>Radiant-360 R6 Wireless Omnidirectional Speaker...</span></a>
+                                        <a href="#" class="product-name"><span>Radiant-360 R6 Wireless Omnidirectional
+                                                Speaker...</span></a>
                                         <div class="wrap-price"><span class="product-price">$168.00</span></div>
                                     </div>
                                 </div>
@@ -204,12 +249,15 @@
                             <li class="product-item">
                                 <div class="product product-widget-style">
                                     <div class="thumbnnail">
-                                        <a href="detail.html" title="Radiant-360 R6 Wireless Omnidirectional Speaker [White]">
-                                            <figure><img src="{{ asset('assets') }}/images/products/digital_17.jpg" alt=""></figure>
+                                        <a href="detail.html"
+                                            title="Radiant-360 R6 Wireless Omnidirectional Speaker [White]">
+                                            <figure><img src="{{ asset('assets') }}/images/products/digital_17.jpg"
+                                                    alt=""></figure>
                                         </a>
                                     </div>
                                     <div class="product-info">
-                                        <a href="#" class="product-name"><span>Radiant-360 R6 Wireless Omnidirectional Speaker...</span></a>
+                                        <a href="#" class="product-name"><span>Radiant-360 R6 Wireless Omnidirectional
+                                                Speaker...</span></a>
                                         <div class="wrap-price"><span class="product-price">$168.00</span></div>
                                     </div>
                                 </div>
@@ -218,12 +266,15 @@
                             <li class="product-item">
                                 <div class="product product-widget-style">
                                     <div class="thumbnnail">
-                                        <a href="detail.html" title="Radiant-360 R6 Wireless Omnidirectional Speaker [White]">
-                                            <figure><img src="{{ asset('assets') }}/images/products/digital_18.jpg" alt=""></figure>
+                                        <a href="detail.html"
+                                            title="Radiant-360 R6 Wireless Omnidirectional Speaker [White]">
+                                            <figure><img src="{{ asset('assets') }}/images/products/digital_18.jpg"
+                                                    alt=""></figure>
                                         </a>
                                     </div>
                                     <div class="product-info">
-                                        <a href="#" class="product-name"><span>Radiant-360 R6 Wireless Omnidirectional Speaker...</span></a>
+                                        <a href="#" class="product-name"><span>Radiant-360 R6 Wireless Omnidirectional
+                                                Speaker...</span></a>
                                         <div class="wrap-price"><span class="product-price">$168.00</span></div>
                                     </div>
                                 </div>
@@ -232,12 +283,15 @@
                             <li class="product-item">
                                 <div class="product product-widget-style">
                                     <div class="thumbnnail">
-                                        <a href="detail.html" title="Radiant-360 R6 Wireless Omnidirectional Speaker [White]">
-                                            <figure><img src="{{ asset('assets') }}/images/products/digital_20.jpg" alt=""></figure>
+                                        <a href="detail.html"
+                                            title="Radiant-360 R6 Wireless Omnidirectional Speaker [White]">
+                                            <figure><img src="{{ asset('assets') }}/images/products/digital_20.jpg"
+                                                    alt=""></figure>
                                         </a>
                                     </div>
                                     <div class="product-info">
-                                        <a href="#" class="product-name"><span>Radiant-360 R6 Wireless Omnidirectional Speaker...</span></a>
+                                        <a href="#" class="product-name"><span>Radiant-360 R6 Wireless Omnidirectional
+                                                Speaker...</span></a>
                                         <div class="wrap-price"><span class="product-price">$168.00</span></div>
                                     </div>
                                 </div>
@@ -247,10 +301,38 @@
                     </div>
                 </div><!-- brand widget-->
 
-            </div><!--end sitebar-->
+            </div>
+            <!--end sitebar-->
 
-        </div><!--end row-->
+        </div>
+        <!--end row-->
 
-    </div><!--end container-->
+    </div>
+    <!--end container-->
 
 </main>
+
+
+@push('scripts')
+<script>
+    var slider = document.querySelector('.slider');
+        noUiSlider.create(slider, {
+            start: [1, 10000],
+            connect: true,
+            range: {
+                'min': 1,
+                'max': 50000
+            },
+            pips: {
+                mode: 'steps',
+                stepped: true,
+                density: 4
+            }
+        })
+        
+        slider.noUiSlider.on('update', function(value){
+            @this.set('min_price', Math.trunc(value[0]))
+            @this.set('max_price', Math.trunc(value[1]))
+        })
+</script>
+@endpush
