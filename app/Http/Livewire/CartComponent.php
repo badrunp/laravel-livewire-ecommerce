@@ -39,7 +39,7 @@ class CartComponent extends Component
         if (Cart::instance('cart')->count() > 0) {
             Cart::instance('cart')->destroy();
             $this->emit('updateCount');
-            session()->flash('message', 'Cart item is delete all success');
+            session()->flash('message', 'Cart item is deleted all success');
         }
 
         return;
